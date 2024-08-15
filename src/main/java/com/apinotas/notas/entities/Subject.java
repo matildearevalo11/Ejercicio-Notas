@@ -1,12 +1,9 @@
 package com.apinotas.notas.entities;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 
 @Data
 @Builder
@@ -17,13 +14,11 @@ import java.math.BigDecimal;
 public class Subject {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_subject", nullable = false)
-    long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false, unique = true)
-    String name;
+    private String name;
 
-    @Column(nullable = false)
-    BigDecimal finalScore;
+
 }
