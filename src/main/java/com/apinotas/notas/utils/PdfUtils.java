@@ -35,7 +35,7 @@ public class PdfUtils {
                 table.setWidthPercentage(100);
 
                 Font boldFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
-                table.addCell(new PdfPCell(new Paragraph("Name", boldFont)));
+                table.addCell(new PdfPCell(new Paragraph("Student name", boldFont)));
                 for (int i = 1; i <= maxGrades; i++) {
                     table.addCell(new PdfPCell(new Paragraph("Grade " + i, boldFont)));
                 }
