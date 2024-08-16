@@ -71,7 +71,7 @@ public class Seeder {
     public List<Subject> seedSubjects() {
         List<Subject> subjects = new ArrayList<>();
         while (subjects.size() < numSubjects) {
-            Subject subject = seedSubject(); // Llama al método que asegura unicidad
+            Subject subject = seedSubject();
             subjects.add(subject);
         }
         return subjects;

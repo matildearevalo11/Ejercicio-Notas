@@ -4,7 +4,6 @@ import com.apinotas.notas.entities.Student;
 import com.apinotas.notas.entities.Subject;
 import com.apinotas.notas.exceptions.NotFoundException;
 import com.apinotas.notas.repositories.EnrollmentRepository;
-import com.apinotas.notas.repositories.StudentRepository;
 import com.apinotas.notas.repositories.SubjectRepository;
 import com.apinotas.notas.services.dtos.response.StudentWithGradesResponseDTO;
 import lombok.AllArgsConstructor;
@@ -27,10 +26,9 @@ import java.util.List;
 @Service
 public class EnrollmentService {
 
-
-    private final UploadFileService uploadFileService;
     private final EnrollmentRepository enrollmentRepository;
-    private final StudentRepository studentRepository;
+    private final UploadFileService uploadFileService;
+    private final StudentService studentService;
     private final SubjectRepository subjectRepository;
     private static final Logger logger = LoggerFactory.getLogger(EnrollmentService.class);
 
@@ -66,18 +64,18 @@ public class EnrollmentService {
                 try {
                     updateGrades(code, idSubject, grades);
                 } catch (NotFoundException e) {
-                    logger.error("Error actualizando calificaciones: {}", e.getMessage());
+                    logger.error("Error updating grades: {}", e.getMessage());
                 }
             }
         }
     }
-    public void updateGrades(Long code, Long idMateria, List<Double> grades) {
-        Student student = studentRepository.findByCode(code);
+    public void updateGrades(Long code, Long idSubject, List<Double> grades) {
+        Student student = studentService.findByCode(code);
         if (student == null) {
             throw new NotFoundException("Student with code "+ code +" not found.");
         }
 
-        Subject subject = subjectRepository.findById(idMateria)
+        Subject subject = subjectRepository.findById(idSubject)
                 .orElseThrow(() -> new NotFoundException("Subject not found."));
 
         Enrollment enrollment = enrollmentRepository.findByStudentAndSubject(student, subject)
@@ -110,10 +108,8 @@ public class EnrollmentService {
                 .toList();
     }
 
-    public List<Enrollment> findBySubjectId(Long idSubject){
-        return enrollmentRepository.findBySubjectId(idSubject);
+    public long count() {
+        return enrollmentRepository.count();
     }
-
-
 }
 
